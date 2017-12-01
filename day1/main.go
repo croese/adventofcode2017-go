@@ -36,14 +36,17 @@ func stringToDigits(s string) circularIntSlice {
 }
 
 func calculateFirstCaptcha(digits circularIntSlice) int {
+	return calculateCaptcha(digits, 1)
+}
+
+func calculateCaptcha(digits circularIntSlice, step int) int {
 	if digits == nil || len(digits) == 0 {
 		return 0
 	}
 
 	sum := 0
-
 	for i := 0; i < len(digits); i++ {
-		if digits.elem(i) == digits.elem(i+1) {
+		if digits.elem(i) == digits.elem(i+step) {
 			sum += digits.elem(i)
 		}
 	}
@@ -52,18 +55,5 @@ func calculateFirstCaptcha(digits circularIntSlice) int {
 }
 
 func calculateSecondCaptcha(digits circularIntSlice) int {
-	if digits == nil || len(digits) == 0 {
-		return 0
-	}
-
-	sum := 0
-	len := len(digits)
-	step := len / 2 // puzzle input length always even
-	for i := 0; i < len; i++ {
-		if digits.elem(i) == digits.elem(i+step) {
-			sum += digits.elem(i)
-		}
-	}
-
-	return sum
+	return calculateCaptcha(digits, len(digits)/2)
 }
